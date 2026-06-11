@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chúc mừng sinh nhật bé iuuuu! 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --rose:    #ff4d6d;
+      --rose-lt: #ff8fa3;
+      --pink:    #ffccd5;
+      --cream:   #fff0f3;
+      --deep:    #4a1525;
+      --mid:     #8b3a52;
+      --card:    #ffffff;
+      --shadow:  0 12px 40px rgba(255,77,109,.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--cream);
+      color: var(--deep);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── FLOATING PETALS ─────────────────────── */
+    #petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .petal {
+      position: absolute;
+      top: -40px;
+      width: 14px; height: 14px;
+      background: radial-gradient(circle at 40% 40%, #ffb3c1, #ff4d6d);
+      border-radius: 50% 0 50% 0;
+      opacity: .55;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-40px) rotate(0deg) scale(1); opacity:.55; }
+      80%  { opacity:.45; }
+      100% { transform: translateY(110vh) rotate(720deg) scale(.6); opacity:0; }
+    }
+
+    /* ── SCREENS ─────────────────────────────── */
+    .screen {
+      display: none;
+      min-height: 100vh;
+      position: relative; z-index: 1;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+    }
+    .screen.active { display: flex; }
+
+    /* ── CARD ────────────────────────────────── */
+    .card {
+      background: var(--card);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 40px 36px;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      animation: slideUp .6s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes slideUp {
+      from { opacity:0; transform: translateY(40px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    /* ── INTRO ───────────────────────────────── */
+    #intro { background: linear-gradient(135deg, #fff0f3 0%, #ffe4ec 100%); flex-direction: column; }
+    #intro .card { max-width: 620px; padding: 48px 40px; }
+
+    .cake-anim {
+      font-size: 72px;
+      display: inline-block;
+      animation: bounce 1.2s ease-in-out infinite alternate;
+      filter: drop-shadow(0 6px 12px rgba(255,77,109,.3));
+    }
+    @keyframes bounce {
+      from { transform: translateY(0) rotate(-4deg); }
+      to   { transform: translateY(-12px) rotate(4deg); }
+    }
+
+    .title-main {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(26px, 5.5vw, 38px);
+      color: var(--rose);
+      line-height: 1.3;
+      margin: 16px 0 10px;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: var(--mid);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .poem-box {
+      background: linear-gradient(135deg, #fff5f7, #ffe9ed);
+      border: 1.5px solid #ffccd5;
+      border-radius: 18px;
+      padding: 26px 28px;
+      text-align: left;
+      margin: 0 auto 28px;
+    }
+    .poem-box p {
+      font-size: 15.5px;
+      line-height: 2;
+      color: var(--deep);
+      white-space: pre-wrap;
+    }
+    .poem-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--rose-lt);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    /* ── BUTTONS ─────────────────────────────── */
+    .btn-main {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ff4d6d, #ff8fa3);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 36px;
+      font-size: 17px;
+      font-weight: 700;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255,77,109,.35);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(255,77,109,.45); }
+    .btn-main:active { transform: translateY(-1px); }
+
+    /* ── QUIZ SCREEN ─────────────────────────── */
+    #quiz { background: linear-gradient(160deg, #fff0f3 0%, #ffe8ee 100%); }
+
+    .progress-bar-wrap {
+      width: 100%; background: #ffd6e0; border-radius: 50px;
+      height: 8px; margin-bottom: 22px; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff4d6d, #ff8fa3);
+      border-radius: 50px;
+      transition: width .5s ease;
+    }
+    .progress-label {
+      font-size: 13px; color: var(--mid); font-weight: 700;
+      margin-bottom: 6px; letter-spacing: .5px;
+    }
+    .question-text {
+      font-size: clamp(16px, 3.5vw, 20px);
+      font-weight: 800;
+      line-height: 1.5;
+      color: var(--deep);
+      margin-bottom: 24px;
+    }
+
+    /* open-ended */
+    .open-area {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .open-area textarea {
+      width: 100%; min-height: 90px;
+      border: 2px solid #ffccd5; border-radius: 14px;
+      padding: 12px 14px; font-size: 15px;
+      font-family: 'Nunito', sans-serif;
+      color: var(--deep); background: #fff9fb;
+      resize: vertical; outline: none;
+      transition: border-color .2s;
+    }
+    .open-area textarea:focus { border-color: var(--rose); }
+    .open-area .btn-confirm {
+      align-self: flex-end;
+    }
+
+    /* MCQ */
+    .options-list {
+      display: flex; flex-direction: column; gap: 11px;
+    }
+    .opt-btn {
+      background: #fff; border: 2px solid #ffccd5;
+      border-radius: 14px; padding: 13px 16px;
+      font-size: 15.5px; font-weight: 600;
+      color: var(--deep); cursor: pointer;
+      text-align: left; font-family: 'Nunito', sans-serif;
+      transition: all .2s ease;
+    }
+    .opt-btn:hover {
+      background: var(--rose); border-color: var(--rose);
+      color: #fff; transform: translateX(4px);
+    }
+    .opt-btn.correct-flash {
+      background: #ff4d6d; border-color: #ff4d6d; color: #fff;
+      animation: flashGlow .5s ease;
+    }
+    @keyframes flashGlow {
+      0%,100% { box-shadow: none; }
+      50% { box-shadow: 0 0 20px rgba(255,77,109,.6); }
+    }
+
+    /* feedback bubble */
+    .feedback-msg {
+      margin-top: 14px;
+      background: linear-gradient(135deg, #fff0f3, #ffd6e0);
+      border: 1.5px solid #ffb3c6;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: 15px; font-weight: 700;
+      color: var(--rose);
+      animation: popIn .4s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes popIn {
+      from { opacity:0; transform: scale(.85); }
+      to   { opacity:1; transform: scale(1); }
+    }
+
+    /* ── OUTRO ───────────────────────────────── */
+    #outro {
+      background: linear-gradient(135deg, #4a1525 0%, #8b1a35 50%, #4a1525 100%);
+      flex-direction: column;
+    }
+    .outro-hearts {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .oh {
+      position: absolute;
+      font-size: 28px;
+      animation: floatUp linear infinite;
+      opacity: 0;
+    }
+    @keyframes floatUp {
+      0%   { opacity:0; transform: translateY(0) scale(.6); }
+      20%  { opacity:.9; }
+      80%  { opacity:.7; }
+      100% { opacity:0; transform: translateY(-110vh) scale(1.2); }
+    }
+    .outro-text {
+      position: relative; z-index: 1;
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(52px, 14vw, 96px);
+      font-weight: 700;
+      color: #fff;
+      text-shadow:
+        0 0 30px rgba(255,100,130,.8),
+        0 0 80px rgba(255,77,109,.5);
+      line-height: 1.15;
+      text-align: center;
+      animation: outroPulse 1.8s ease-in-out infinite alternate;
+      letter-spacing: 2px;
+    }
+    @keyframes outroPulse {
+      from { transform: scale(1);    text-shadow: 0 0 30px rgba(255,100,130,.8),0 0 80px rgba(255,77,109,.5); }
+      to   { transform: scale(1.05); text-shadow: 0 0 50px rgba(255,160,180,1),0 0 120px rgba(255,77,109,.8); }
+    }
+    .outro-sub {
+      position: relative; z-index: 1;
+      color: #ffb3c6; font-size: 18px; font-weight: 600;
+      margin-top: 18px; letter-spacing: 1px;
+    }
+
+    /* ── SPARKLE ─────────────────────────────── */
+    .sparkle-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+    .spark {
+      position: absolute; font-size: 18px;
+      animation: sparkle .7s ease forwards;
+    }
+    @keyframes sparkle {
+      0%   { opacity:1; transform: scale(.5) translateY(0); }
+      60%  { opacity:.8; transform: scale(1.3) translateY(-20px); }
+      100% { opacity:0; transform: scale(.8) translateY(-40px); }
+    }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 480px) {
+      .card { padding: 28px 20px; }
+      .poem-box { padding: 18px 16px; }
+      .poem-box p { font-size: 14.5px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Floating petals -->
+<div id="petals"></div>
+<!-- Sparkles on choice -->
+<div class="sparkle-wrap" id="sparkleWrap"></div>
+
+<!-- ═══ INTRO SCREEN ════════════════════════════════════════════════════ -->
+<section class="screen active" id="intro">
+  <div class="card">
+    <span class="cake-anim">🎂</span>
+
+    <h1 class="title-main">Chúc mừng sinh nhật<br>bé iuuuu! 🎉</h1>
+
+    <p class="subtitle">
+      Anh là <strong>Híu Híu</strong>, là ngừi iu của em,<br>
+      có một bài thơ nhỏ gửi đến em 🌸
+    </p>
+
+    <div class="poem-box">
+      <div class="poem-label">🌷 Bài thơ của Híu Híu</div>
+      <p id="poem-text"></p>
+    </div>
+
+    <button class="btn-main" onclick="startQuiz()">
+      Bắt đầu khảo sát nhooo 💌
+    </button>
+  </div>
+</section>
+
+<!-- ═══ QUIZ SCREEN ══════════════════════════════════════════════════════ -->
+<section class="screen" id="quiz">
+  <div class="card">
+    <div class="progress-label" id="prog-label">Câu 1 / 10</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="prog-bar" style="width:10%"></div>
+    </div>
+    <div class="question-text" id="q-text">…</div>
+    <div id="q-body"></div>
+  </div>
+</section>
+
+<!-- ═══ OUTRO SCREEN ═════════════════════════════════════════════════════ -->
+<section class="screen" id="outro">
+  <div class="outro-hearts" id="outroHearts"></div>
+  <p class="outro-text">ANH<br>YÊU<br>EM</p>
+  <p class="outro-sub">💖 Híu Híu – mặt trời nhỏ của em 💖</p>
+</section>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   POEM (typed gradually)
+══════════════════════════════════════════════════════ */
+const POEM = `Ngày sinh nhật em, anh viết một vần thơ
+Gửi trọn tình yêu vào những giấc mơ bên nàng
+Anh chúc nàng vững bước trên đường đời
+Có anh đây zồi xợ chi cưng hỡi 🌸
+
+Chúc bé iu tuổi mới đẹp xinh
+Tươi như bông hoa hồng, đẹp như những hoa tay
+Cám ơn em vì đã ở bên anh
+Anh xin dành trọn tấm lòng cho em ;3
+Thích ở bên em, yêu em lâu thêm
+Muốn được nắm tay, được ôm em vào lòng
+Hải Phòng là không có lòng vòng đâu đó nghe hi hi :>
+
+Đắm chìm trong giấc mơ anh gặp emmm
+Chưa lần nào anh lại muốn thức dậy
+Chỉ mong mơ lâu thêm 1 chút
+Ở cạnh em và ôm em lâu thêm!
+
+Yêu em và sẽ tiếp tục yêu em về sauu
+Thân, Híu Híu là mặt trời nhỏ! ☀️`;
+
+function typePoem() {
+  const el = document.getElementById('poem-text');
+  let i = 0;
+  const interval = setInterval(() => {
+    el.textContent = POEM.slice(0, i);
+    i++;
+    if (i > POEM.length) clearInterval(interval);
+  }, 18);
+}
+typePoem();
+
+/* ══════════════════════════════════════════════════════
+   PETALS
+══════════════════════════════════════════════════════ */
+(function spawnPetals() {
+  const wrap = document.getElementById('petals');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const sz = 8 + Math.random() * 14;
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      width:${sz}px; height:${sz}px;
+      animation-duration:${5 + Math.random()*8}s;
+      animation-delay:${-Math.random()*12}s;
+      opacity:${0.3 + Math.random()*.4};
+    `;
+    wrap.appendChild(p);
+  }
+})();
+
+/* ══════════════════════════════════════════════════════
+   QUESTIONS DATA
+══════════════════════════════════════════════════════ */
+const QUESTIONS = [
+  {
+    id: 1,
+    text: "🥺✨ Cảm nghĩ của em sau khi nghe được bài thơ trên là gì?",
+    type: "open",
+    placeholder: "Em hãy chia sẻ cảm nghĩ nhé 🥰...",
+    feedbackAfter: null
+  },
+  {
+    id: 2,
+    text: "Em nghĩ thế nào về anh? ;3",
+    type: "mcq",
+    options: [
+      "A. Đẹp trai",
+      "B. Rấc iu em",
+      "C. Hay để ý mấy thứ vặt vãnh",
+      "D. AQuyn đáng iu nhất thế giới",
+      "E. Tất cả các đáp án trên"
+    ],
+    allCorrect: true,
+    feedback: "🎉 Chúc mừng bé yêu đã chọn đáp án chính xác! 💖"
+  },
+  {
+    id: 3,
+    text: "Điều gì khiến em hạnh phúc nhất khi ở cạnh anh? 💕",
+    type: "open",
+    placeholder: "Em kể cho anh nghe nhé...",
+    feedbackAfter: "dạ vợ yêu của anh 🥰"
+  },
+  {
+    id: 4,
+    text: "Và điều gì khiến em ghéc anh nhìu nhứt? 🙈",
+    type: "open",
+    placeholder: "Cứ thật thật kể ra nha em...",
+    feedbackAfter: "dạ vợ yêu của anh 🥰"
+  },
+  {
+    id: 5,
+    text: "Em bé của anh mún những điều gì khi lên đây ạaa? 🌟",
+    type: "open",
+    placeholder: "Ước gì cũng được nha em...",
+    feedbackAfter: "dạ vợ yêu của anh 🥰"
+  },
+  {
+    id: 6,
+    text: "Nếu một mai anh thành con gián em có iu anh hong :))?",
+    type: "mcq",
+    options: [
+      "A. CÓA",
+      "B. kó",
+      "C. Chắc chắn là có",
+      "D. Có cc"
+    ],
+    correctIndex: 3,
+    feedback: "Anh biết mà 🥰"
+  },
+  {
+    id: 7,
+    text: "Vợ iu của anh có thể chủ động set hẹn hò trên phở bò zới anh được hong 🥺",
+    type: "mcq",
+    options: [
+      "A. Rất sẵn lòng",
+      "B. đel",
+      "C. có cc",
+      "D. kó"
+    ],
+    allCorrect: true,
+    feedback: "Anh xin cảm ơn vợ yêu 🥰"
+  },
+  {
+    id: 8,
+    text: "Anh bí câu hỏi zồi, nhưng mà anh thích ngắm vợ lắm đó nên anh thêm câu nì :))",
+    type: "mcq",
+    options: [
+      "A. Anh cc",
+      "B. Ngắm cl",
+      "C. Chê",
+      "D. Tất cả các đáp án trên"
+    ],
+    correctIndex: 3,
+    feedback: "anh rất rất biết cưng mà 🥰"
+  },
+  {
+    id: 9,
+    text: "Hếc zồi và anh chỉ muốn nói: Anh yêu em nhiều lắm! 💕",
+    type: "mcq",
+    options: [
+      "A. Em kó iu anh",
+      "B. Hk iu 😒",
+      "C. Anh là con bò",
+      "D. Tất cả các ý trên"
+    ],
+    correctIndex: 3,
+    feedback: "hihi anh thật sự yêu em bé nhìu lắm á 💖"
+  },
+  {
+    id: 10,
+    text: "Câu cuối cùng rùi 🎊 Anh muốn chúc em bé của anh sang tuổi mới có thêm nhiều năng lượng mới, sức khỏe dồi dào, mong cho các căn bệnh chớt hớt đi, những thành phần sivi nhận cái kết đắng để bé iu của anh được sống zui zẻ ạ =))",
+    type: "open",
+    placeholder: "Em muốn nói điều gì với anh nào... 💌",
+    feedbackAfter: null
+  }
+];
+
+/* ══════════════════════════════════════════════════════
+   RESPONSES COLLECTION
+══════════════════════════════════════════════════════ */
+const responses = {};
+
+/* ══════════════════════════════════════════════════════
+   SCREEN TRANSITIONS
+══════════════════════════════════════════════════════ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function startQuiz() {
+  currentQ = 0;
+  showScreen('quiz');
+  renderQuestion();
+}
+
+/* ══════════════════════════════════════════════════════
+   QUIZ LOGIC
+══════════════════════════════════════════════════════ */
+let currentQ = 0;
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const n = currentQ + 1;
+  document.getElementById('prog-label').textContent = `Câu ${n} / ${QUESTIONS.length}`;
+  document.getElementById('prog-bar').style.width = `${(n / QUESTIONS.length) * 100}%`;
+  document.getElementById('q-text').innerHTML = q.text;
+
+  const body = document.getElementById('q-body');
+  body.innerHTML = '';
+
+  if (q.type === 'open') {
+    body.innerHTML = `
+      <div class="open-area">
+        <textarea id="open-ans" placeholder="${q.placeholder}"></textarea>
+        <button class="btn-main btn-confirm" onclick="submitOpen()">Xác nhận 💌</button>
+      </div>`;
+  } else {
+    // MCQ
+    const list = document.createElement('div');
+    list.className = 'options-list';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.textContent = opt;
+      btn.onclick = () => selectMCQ(i, btn);
+      list.appendChild(btn);
+    });
+    body.appendChild(list);
+  }
+}
+
+function submitOpen() {
+  const val = document.getElementById('open-ans').value.trim();
+  if (!val) {
+    document.getElementById('open-ans').style.borderColor = '#ff4d6d';
+    return;
+  }
+  const q = QUESTIONS[currentQ];
+  responses[`Q${q.id}`] = val;
+  spawnSparkles();
+
+  if (q.feedbackAfter) {
+    const fb = document.createElement('div');
+    fb.className = 'feedback-msg';
+    fb.textContent = q.feedbackAfter;
+    document.getElementById('q-body').appendChild(fb);
+    setTimeout(nextQuestion, 1800);
+  } else {
+    nextQuestion();
+  }
+}
+
+function selectMCQ(idx, btn) {
+  const q = QUESTIONS[currentQ];
+  // Disable all buttons
+  document.querySelectorAll('.opt-btn').forEach(b => {
+    b.onclick = null;
+    b.style.pointerEvents = 'none';
+  });
+  btn.classList.add('correct-flash');
+  responses[`Q${q.id}`] = q.options[idx];
+  spawnSparkles();
+
+  const showFeedback = q.allCorrect
+    ? true
+    : (q.correctIndex !== undefined && idx === q.correctIndex);
+
+  const fb = document.createElement('div');
+  fb.className = 'feedback-msg';
+  if (showFeedback && q.feedback) {
+    fb.textContent = q.feedback;
+  } else if (!showFeedback) {
+    fb.textContent = "Câu trả lời của em đã được ghi lại 💌";
+  } else {
+    fb.textContent = q.feedback || "Đã ghi lại rồi nha 💌";
+  }
+  document.getElementById('q-body').appendChild(fb);
+
+  setTimeout(nextQuestion, 2000);
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ < QUESTIONS.length) {
+    // Animate card out/in
+    const card = document.querySelector('#quiz .card');
+    card.style.transition = 'opacity .3s, transform .3s';
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      renderQuestion();
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, 300);
+  } else {
+    sendResponses();
+    showOutro();
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   SEND RESPONSES
+  Thay YOUR_WEBHOOK_URL bằng URL webhook của bạn
+  (ví dụ: Formspree, webhook.site, Make/Zapier, v.v.)
+══════════════════════════════════════════════════════ */
+async function sendResponses() {
+  const payload = {
+    timestamp: new Date().toISOString(),
+    ...responses
+  };
+
+  // ── Formspree ────────────────────────────────────────
+  // Uncomment & thay YOUR_FORMSPREE_ID:
+  /*
+  try {
+    await fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch(e) { console.error(e); }
+  */
+
+  // ── webhook.site / Make / Zapier ─────────────────────
+  // Uncomment & thay YOUR_WEBHOOK_URL:
+  /*
+  try {
+    await fetch('YOUR_WEBHOOK_URL', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch(e) { console.error(e); }
+  */
+
+  // In ra console để debug
+  console.log('📬 Quiz responses:', JSON.stringify(payload, null, 2));
+}
+
+/* ══════════════════════════════════════════════════════
+   OUTRO
+══════════════════════════════════════════════════════ */
+function showOutro() {
+  showScreen('outro');
+  spawnOutroHearts();
+}
+
+function spawnOutroHearts() {
+  const wrap = document.getElementById('outroHearts');
+  const emojis = ['❤️','💖','💕','💗','💓','🌸','✨','💞','💝'];
+  for (let i = 0; i < 40; i++) {
+    const h = document.createElement('div');
+    h.className = 'oh';
+    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    const sz = 18 + Math.random() * 28;
+    h.style.cssText = `
+      left:${Math.random()*100}%;
+      bottom:-60px;
+      font-size:${sz}px;
+      animation-duration:${4 + Math.random()*6}s;
+      animation-delay:${Math.random()*8}s;
+    `;
+    wrap.appendChild(h);
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   SPARKLES
+══════════════════════════════════════════════════════ */
+function spawnSparkles() {
+  const wrap = document.getElementById('sparkleWrap');
+  const emojis = ['✨','💖','🌸','⭐','💫','🎉'];
+  for (let i = 0; i < 10; i++) {
+    const s = document.createElement('div');
+    s.className = 'spark';
+    s.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    s.style.cssText = `
+      left:${10 + Math.random()*80}%;
+      top:${20 + Math.random()*60}%;
+      animation-delay:${Math.random()*.3}s;
+    `;
+    wrap.appendChild(s);
+    setTimeout(() => s.remove(), 1000);
+  }
+}
+</script>
+</body>
+</html>
